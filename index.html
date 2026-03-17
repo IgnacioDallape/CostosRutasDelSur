@@ -571,6 +571,57 @@ body::before{
       <div class="trip-result" id="trip-result-b">
       </div>
     </div>
+  </div>
+
+  <!-- ALERTA EXCESO COMBUSTIBLE -->
+  <div class="fuel-alert-section" id="fuel-alert-section" style="display:none;">
+    <div class="fa-header">
+      <div class="fa-header-left">
+        <div class="fa-icon">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div>
+          <div class="fa-title">Alerta — Exceso de combustible</div>
+          <div class="fa-desc">el consumo real superó el esperado en este viaje</div>
+        </div>
+      </div>
+      <div class="fa-badge" id="fa-badge">consumo elevado</div>
+    </div>
+    <div class="fa-grid">
+      <div class="fa-card">
+        <div class="fa-card-icon" style="background:#2563EB12;border-color:#2563EB25;">
+          <svg viewBox="0 0 24 24" style="stroke:#2563EB;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="fa-card-label">Kilómetros recorridos</div>
+        <div class="fa-card-value" id="fa-km">—</div>
+        <div class="fa-card-sub">en este viaje</div>
+      </div>
+      <div class="fa-card">
+        <div class="fa-card-icon" style="background:#C47D0A12;border-color:#C47D0A25;">
+          <svg viewBox="0 0 24 24" style="stroke:#C47D0A;"><path d="M3 22V8l9-6 9 6v14H3z"/><path d="M10 22V12h4v10"/></svg>
+        </div>
+        <div class="fa-card-label">Litros cargados</div>
+        <div class="fa-card-value" id="fa-litros">—</div>
+        <div class="fa-card-sub" id="fa-litros-sub">en este viaje</div>
+      </div>
+      <div class="fa-card">
+        <div class="fa-card-icon" style="background:#DC262612;border-color:#DC262625;">
+          <svg viewBox="0 0 24 24" style="stroke:#DC2626;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="fa-card-label">Consumo real</div>
+        <div class="fa-card-value fa-red" id="fa-consumo">—</div>
+        <div class="fa-card-sub" id="fa-consumo-sub">— esperado</div>
+      </div>
+      <div class="fa-card fa-card-highlight">
+        <div class="fa-card-icon" style="background:#DC262618;border-color:#DC262635;">
+          <svg viewBox="0 0 24 24" style="stroke:#DC2626;"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="fa-card-label">Costo extra total</div>
+        <div class="fa-card-value fa-red" id="fa-costo-extra">—</div>
+        <div class="fa-card-sub" id="fa-costo-extra-sub">litros extra × precio</div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer fade-in">
     <div class="footer-l">FleetCost · Calculadora de costos de transporte</div>
@@ -651,6 +702,70 @@ body::before{
 .rent-pct.media{color:#C47D0A;}
 .rent-pct.baja{color:#DC2626;}
 .rent-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;}
+/* ── FUEL ALERT DASHBOARD ── */
+.fuel-alert-section{
+  margin-top:1.5rem;
+  border:1px solid #DC262625;
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  background:#DC26260A;
+  animation:slideDown .4s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.fa-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;
+  border-bottom:1px solid #DC262620;
+  background:#DC262608;
+  position:relative;
+}
+.fa-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,#DC2626,transparent);
+}
+.fa-header-left{display:flex;align-items:center;gap:14px;}
+.fa-icon{
+  width:36px;height:36px;border-radius:9px;
+  background:#DC262615;border:1px solid #DC262630;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.fa-icon svg{width:16px;height:16px;stroke:#DC2626;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.fa-title{font-size:14px;font-weight:600;color:#DC2626;}
+.fa-desc{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.05em;margin-top:1px;}
+.fa-badge{
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;
+  background:#DC262615;border:1px solid #DC262630;color:#DC2626;
+  white-space:nowrap;
+}
+.fa-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+@media(max-width:700px){.fa-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:400px){.fa-grid{grid-template-columns:1fr;}}
+.fa-card{
+  padding:24px 22px;
+  border-right:1px solid #DC262615;
+  display:flex;flex-direction:column;gap:10px;
+}
+.fa-card:last-child{border-right:none;}
+@media(max-width:700px){
+  .fa-card:nth-child(2){border-right:none;}
+  .fa-card:nth-child(3){border-top:1px solid #DC262615;}
+  .fa-card:nth-child(4){border-top:1px solid #DC262615;border-right:none;}
+}
+.fa-card-highlight{background:#DC26260D;}
+.fa-card-icon{
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid;flex-shrink:0;
+}
+.fa-card-icon svg{width:14px;height:14px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.fa-card-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.fa-card-value{font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--text);font-variant-numeric:tabular-nums;line-height:1;}
+.fa-card-value.fa-red{color:#DC2626;}
+.fa-card-sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);}
 </style>
 
 <script>
@@ -870,6 +985,23 @@ function calcularViaje(){
       </div>
     </div>` : ''}
   `;
+
+  // Fuel alert dashboard
+  const alertSection = document.getElementById('fuel-alert-section');
+  if(isAlto && diff !== null && vkm > 0 && litros > 0){
+    const litrosExtra = (diff/100)*vkm;
+    const costoExtra  = litrosExtra * precioL;
+    alertSection.style.display = 'block';
+    document.getElementById('fa-km').textContent         = vkm.toLocaleString('es-AR') + ' km';
+    document.getElementById('fa-litros').textContent     = litros.toLocaleString('es-AR') + ' L';
+    document.getElementById('fa-litros-sub').textContent = (litros - (consumoTeo/100*vkm)).toFixed(1) + ' L más de lo esperado';
+    document.getElementById('fa-consumo').textContent    = consumoReal.toFixed(1) + ' L';
+    document.getElementById('fa-consumo-sub').textContent= consumoTeo ? consumoTeo.toFixed(1) + ' L esperado' : '— esperado';
+    document.getElementById('fa-costo-extra').textContent= fmtM(costoExtra);
+    document.getElementById('fa-costo-extra-sub').textContent = litrosExtra.toFixed(1) + ' L × ' + fmtM(precioL);
+  } else {
+    alertSection.style.display = 'none';
+  }
 }
 </script>
 </body>
